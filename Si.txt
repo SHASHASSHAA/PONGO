@@ -1,0 +1,103 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace PONG
+{
+    class Program
+    {
+        struct pezzino
+        {
+            public int x;
+            public int y;
+
+            public pezzino(int cx, int cy)
+            {
+                x = cx;
+                y = cy;
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            pezzino[] sbarrina1 = new pezzino[5];
+            pezzino[] sbarrina2 = new pezzino[5];
+            for (int contino = 0; contino < 5; contino++)
+            {
+                sbarrina1[contino].x = 1;
+                sbarrina1[contino].y = contino;
+                sbarrina2[contino].x = 20;
+                sbarrina2[contino].y = contino;
+            }
+
+            while (true)
+            {
+                //disegno le sbarrine
+                Disegnino(sbarrina1, 1);
+                Disegnino(sbarrina2, 20);
+
+                //quando premi un tastino
+                if (Console.KeyAvailable == true)
+                {
+                    if(Console.ReadKey(true).Key == ConsoleKey.W)
+                    {
+                        if(sbarrina1[0].y>1||sbarrina1[4].y<=Console.WindowHeight-1)
+                        {
+                            VadoAltino(sbarrina1);
+                        }
+                    }
+                    if(Console.ReadKey(true).Key == ConsoleKey.S)
+                    {
+                        if(sbarrina1[4].y>=1||sbarrina1[4].y<Console.WindowHeight-1)
+                        {
+                            VadoBassino(sbarrina1);
+                        }
+                    }
+                    if (Console.ReadKey(true).Key == ConsoleKey.UpArrow)
+                    {
+                        if(sbarrina2[0].y>1||sbarrina2[4].y<=Console.WindowHeight-1)
+                        {
+                            VadoAltino(sbarrina2);
+                        }
+                    }
+                    if(Console.ReadKey(true).Key==ConsoleKey.DownArrow)
+                    {
+                        if(sbarrina2[0].y >= 1 || sbarrina2[4].y < Console.WindowHeight - 1)
+                        {
+                            VadoBassino(sbarrina2);
+                        }
+                    }
+                }
+
+                Thread.Sleep(500);
+                Console.Clear();
+            }
+        }
+
+        private static void Disegnino(pezzino[] sbarrina, int pos)
+        {
+            for (int contino = 0; contino < 5; contino++)
+            {
+                Console.SetCursorPosition(pos, sbarrina[contino].y);
+                Console.Write("#");
+            }
+        }
+        private static void VadoAltino(pezzino[] sbarrina)
+        {
+            for (int contino = 0; contino < 5; contino++)
+            {
+                sbarrina[contino].y--;
+            }
+        }
+        private static void VadoBassino(pezzino[] sbarrina)
+        {
+            for (int contino = 0; contino < 5; contino++)
+            {
+                sbarrina[contino].y++;
+            }
+        }
+    }
+}
